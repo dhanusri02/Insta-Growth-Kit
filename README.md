@@ -1,43 +1,17 @@
-# 📸 Insta Growth Kit
+# Insta Growth Kit
 
-A simple and powerful dashboard to manage Instagram leads for small businesses.
+A tool for small shop owners to auto-reply to PRICE comments on Instagram Reels with price in DM.
 
-This project helps you track who commented "PRICE" on your posts, follow up with them, and never miss a customer.
+## How it works
 
----
+1. Customer comments **PRICE**
+2. Bot sends price in DM
+3. Lead is saved
 
-## ✨ Features
+## Project Files
 
-- ✅ Add New Leads easily
-- 📊 Live Dashboard - Total Leads, Replied, Pending counts
-- 🔄 Mark as Replied with one click
-- 💾 Data auto-saved in Browser (LocalStorage)
-- 📱 Mobile Friendly Design
+- [docs/problemStatement.md](docs/problemStatement.md)
+- [docs/userStories.md](docs/userStories.md)
+- [docs/solution.md](docs/solution.md)
+- [docs/techStack.md](docs/techStack.md)
 
-## 🛠️ Tech Used
-
-- HTML
-- CSS
-- JavaScript
-
-## 🚀 How to Run
-
-1. Download this project
-2. Open `index.html` in your browser
-   OR
-3. Run on `localhost:8000`
-
-## 🎯 How to Use
-
-1. Open the Dashboard
-2. Click **Add Lead** and enter Name & Comment
-3. When you reply on Instagram, click **Mark as Replied**
-4. Pending count will update automatically
-
-## 👤 Created By
-
-**Dhanusri**
-Mini Project - Instagram Growth Tool
-
----
-⭐ If you like this project, give it a star!

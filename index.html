@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Insta Growth Kit</title>
+  <style>
+    /* ── Reset ── */
+    *, *::before, *::after {
+      margin: 0; padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* ── Base ── */
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #f0f2f5;
+      color: #333;
+      min-height: 100vh;
+    }
+
+    /* ═══════════════════════════════
+       Header
+    ═══════════════════════════════ */
+    header {
+      background: linear-gradient(135deg, #4a00e0 0%, #833ab4 50%, #c850c0 100%);
+      color: white;
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 4px 20px rgba(74, 0, 224, 0.3);
+    }
+
+    header .logo {
+      font-size: 2.2rem;
+      line-height: 1;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    }
+
+    header .header-text h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    header .header-text p {
+      font-size: 0.78rem;
+      opacity: 0.82;
+      margin-top: 3px;
+    }
+
+    /* ═══════════════════════════════
+       Container
+    ═══════════════════════════════ */
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 28px 20px 48px;
+    }
+
+    /* ═══════════════════════════════
+       Stat Cards
+    ═══════════════════════════════ */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 22px 16px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      border-top: 4px solid transparent;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    }
+
+    .card.total  { border-top-color: #833ab4; }
+    .card.replied{ border-top-color: #2ecc71; }
+    .card.pending{ border-top-color: #e67e22; }
+
+    .card .number {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .card .label {
+      font-size: 0.75rem;
+      color: #aaa;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    .card.total  .number { color: #833ab4; }
+    .card.replied .number{ color: #2ecc71; }
+    .card.pending .number{ color: #e67e22; }
+
+    /* ═══════════════════════════════
+       Shared Panel
+    ═══════════════════════════════ */
+    .panel {
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 16px 22px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .panel-header h2 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #444;
+    }
+
+    .panel-body {
+      padding: 20px 22px;
+    }
+
+    /* ═══════════════════════════════
+       Add Lead Form
+    ═══════════════════════════════ */
+    .form-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .form-row input {
+      flex: 1;
+      min-width: 140px;
+      padding: 9px 14px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-family: inherit;
+      outline: none;
+      background: #fafafa;
+      transition: border 0.2s, background 0.2s;
+    }
+
+    .form-row input:focus {
+      border-color: #833ab4;
+      background: white;
+    }
+
+    /* ═══════════════════════════════
+       Search Box
+    ═══════════════════════════════ */
+    #searchBox {
+      padding: 7px 13px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      outline: none;
+      width: 210px;
+      font-family: inherit;
+      background: #fafafa;
+      transition: border 0.2s, background 0.2s;
+    }
+
+    #searchBox:focus {
+      border-color: #833ab4;
+      background: white;
+    }
+
+    /* ═══════════════════════════════
+       Table — horizontal scroll on mobile
+    ═══════════════════════════════ */
+    .table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 520px;
+    }
+
+    thead {
+      background: #f8f5ff;
+    }
+
+    thead th {
+      padding: 11px 18px;
+      text-align: left;
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #888;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    tbody tr {
+      border-top: 1px solid #f3f3f3;
+      transition: background 0.15s;
+    }
+
+    tbody tr:hover { background: #fdf5ff; }
+
+    tbody td {
+      padding: 13px 18px;
+      font-size: 0.9rem;
+      color: #444;
+      white-space: nowrap;
+    }
+
+    tr.done { background: #eafaf1 !important; }
+
+    /* ═══════════════════════════════
+       Badges
+    ═══════════════════════════════ */
+    .badge {
+      display: inline-block;
+      padding: 3px 11px;
+      border-radius: 20px;
+      font-size: 0.74rem;
+      font-weight: 700;
+    }
+
+    .badge.replied { background: #e8f8f0; color: #27ae60; }
+    .badge.pending { background: #fff4e5; color: #e67e22; }
+
+    /* ═══════════════════════════════
+       Buttons
+    ═══════════════════════════════ */
+    .btn-add {
+      padding: 9px 22px;
+      background: linear-gradient(135deg, #4a00e0, #833ab4);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+
+    .btn-add:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    .btn-reply {
+      padding: 5px 11px;
+      background: #833ab4;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 600;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-reply:hover    { background: #6a2f96; }
+    .btn-reply:disabled { background: #ccc; cursor: default; }
+
+    .btn-save {
+      padding: 9px 22px;
+      background: linear-gradient(135deg, #4a00e0, #833ab4);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .btn-save:hover { opacity: 0.88; }
+
+    /* ═══════════════════════════════
+       Template section
+    ═══════════════════════════════ */
+    .template-section textarea {
+      width: 100%;
+      height: 90px;
+      padding: 11px 14px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      color: #333;
+      resize: vertical;
+      outline: none;
+      background: #fafafa;
+      transition: border 0.2s, background 0.2s;
+      line-height: 1.6;
+    }
+
+    .template-section textarea:focus {
+      border-color: #833ab4;
+      background: white;
+    }
+
+    .template-footer {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .save-msg {
+      font-size: 0.85rem;
+      color: #27ae60;
+      font-weight: 600;
+      display: none;
+    }
+
+    /* ═══════════════════════════════
+       Mobile  ≤ 600px
+    ═══════════════════════════════ */
+    @media (max-width: 600px) {
+
+      header { padding: 14px 16px; gap: 10px; }
+      header .logo { font-size: 1.8rem; }
+      header .header-text h1 { font-size: 1.1rem; }
+
+      .container { padding: 16px 12px 36px; }
+
+      /* Cards stack vertically */
+      .cards { grid-template-columns: 1fr; gap: 12px; }
+      .card  { padding: 16px 20px; display: flex; align-items: center; gap: 16px; text-align: left; }
+      .card .number { font-size: 2rem; margin-bottom: 0; }
+
+      /* Form stacks */
+      .form-row { flex-direction: column; }
+      .form-row input, .btn-add { width: 100%; }
+
+      /* Toolbar stacks */
+      .panel-header { flex-direction: column; align-items: flex-start; }
+      #searchBox { width: 100%; }
+
+      /* Save button full width */
+      .btn-save { width: 100%; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">📸</div>
+    <div class="header-text">
+      <h1>Insta Growth Kit</h1>
+      <p>Auto-reply to PRICE comments &amp; manage your leads</p>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- Stat Cards -->
+    <div class="cards">
+      <div class="card total">
+        <div class="number" id="statTotal">0</div>
+        <div class="label">Total Leads</div>
+      </div>
+      <div class="card replied">
+        <div class="number" id="statReplied">0</div>
+        <div class="label">Replied Today</div>
+      </div>
+      <div class="card pending">
+        <div class="number" id="statPending">0</div>
+        <div class="label">Pending</div>
+      </div>
+    </div>
+
+    <!-- Add Lead Form -->
+    <div class="panel">
+      <div class="panel-header">
+        <h2>➕ Add Lead</h2>
+      </div>
+      <div class="panel-body">
+        <div class="form-row">
+          <input type="text" id="inputName"    placeholder="Customer Name" />
+          <input type="text" id="inputComment" placeholder="Comment (e.g. PRICE)" />
+          <button class="btn-add" onclick="addLead()">Add Lead</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Leads Table -->
+    <div class="panel">
+      <div class="panel-header">
+        <h2>📋 Recent Leads</h2>
+        <input type="text" id="searchBox" placeholder="🔍 Search by name..." oninput="searchLeads()" />
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Comment</th>
+              <th>Time</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="leadsTable">
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Auto-Reply Message Template -->
+    <div class="panel template-section">
+      <div class="panel-header">
+        <h2>💬 Auto-Reply Message Template</h2>
+      </div>
+      <div class="panel-body">
+        <textarea id="templateBox">Hi! Thanks for commenting PRICE. This product is Rs.499. Order link: https://myshop.com/product</textarea>
+        <div class="template-footer">
+          <button class="btn-save" onclick="saveTemplate()">Save Template</button>
+          <span class="save-msg" id="saveMsg">✅ Template Saved!</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+
+    /* ═══════════════════════════════════════
+       localStorage helpers
+    ═══════════════════════════════════════ */
+    const LEADS_KEY    = 'igd_leads';
+    const TEMPLATE_KEY = 'igd_template';
+
+    function getLeads() {
+      return JSON.parse(localStorage.getItem(LEADS_KEY) || '[]');
+    }
+
+    function saveLeads(leads) {
+      localStorage.setItem(LEADS_KEY, JSON.stringify(leads));
+    }
+
+    /* ═══════════════════════════════════════
+       Update stat cards from localStorage
+    ═══════════════════════════════════════ */
+    function updateStats() {
+      const leads = getLeads();
+      const replied = leads.filter(l => l.status === 'Replied').length;
+      const pending = leads.filter(l => l.status === 'Pending').length;
+
+      document.getElementById('statTotal').textContent   = leads.length;
+      document.getElementById('statReplied').textContent = replied;
+      document.getElementById('statPending').textContent = pending;
+    }
+
+    /* ═══════════════════════════════════════
+       Render a single lead row in the table
+    ═══════════════════════════════════════ */
+    function renderRow(lead, index) {
+      const tbody = document.getElementById('leadsTable');
+      const row   = document.createElement('tr');
+      if (lead.status === 'Replied') row.classList.add('done');
+
+      row.dataset.index = index;
+      row.innerHTML = `
+        <td>${lead.name}</td>
+        <td>${lead.comment}</td>
+        <td>${lead.time}</td>
+        <td>${
+          lead.status === 'Replied'
+            ? '<span class="badge replied">Replied</span>'
+            : '<span class="badge pending">Pending</span>'
+        }</td>
+        <td>${
+          lead.status === 'Replied'
+            ? '<button class="btn-reply" disabled>✔ Done</button>'
+            : '<button class="btn-reply" onclick="markReplied(this)">Mark as Replied</button>'
+        }</td>
+      `;
+      tbody.appendChild(row);
+    }
+
+    /* ═══════════════════════════════════════
+       Load everything on page start
+    ═══════════════════════════════════════ */
+    window.addEventListener('DOMContentLoaded', () => {
+
+      // Restore leads (seed defaults on very first visit)
+      let leads = getLeads();
+      if (leads.length === 0) {
+        leads = [
+          { name: 'Priya Sharma', comment: 'PRICE', time: 'Today, 6:45 PM', status: 'Replied' },
+          { name: 'Rahul Verma',  comment: 'PRICE', time: 'Today, 5:30 PM', status: 'Pending' }
+        ];
+        saveLeads(leads);
+      }
+      leads.forEach((lead, i) => renderRow(lead, i));
+
+      // Update stat cards
+      updateStats();
+
+      // Restore template
+      const savedTemplate = localStorage.getItem(TEMPLATE_KEY);
+      if (savedTemplate) {
+        document.getElementById('templateBox').value = savedTemplate;
+      }
+    });
+
+    /* ═══════════════════════════════════════
+       Search leads by name
+    ═══════════════════════════════════════ */
+    function searchLeads() {
+      const query = document.getElementById('searchBox').value.toLowerCase();
+      const rows  = document.querySelectorAll('#leadsTable tr');
+      rows.forEach(row => {
+        const name = row.cells[0].textContent.toLowerCase();
+        row.style.display = name.includes(query) ? '' : 'none';
+      });
+    }
+
+    /* ═══════════════════════════════════════
+       Mark a row as Replied & save to storage
+    ═══════════════════════════════════════ */
+    function markReplied(btn) {
+      const row   = btn.closest('tr');
+      const index = parseInt(row.dataset.index);
+
+      row.classList.add('done');
+      row.cells[3].innerHTML = '<span class="badge replied">Replied</span>';
+      btn.textContent = '✔ Done';
+      btn.disabled    = true;
+
+      const leads         = getLeads();
+      leads[index].status = 'Replied';
+      saveLeads(leads);
+      updateStats();
+    }
+
+    /* ═══════════════════════════════════════
+       Save template to localStorage
+    ═══════════════════════════════════════ */
+    function saveTemplate() {
+      const text = document.getElementById('templateBox').value;
+      localStorage.setItem(TEMPLATE_KEY, text);
+
+      const msg = document.getElementById('saveMsg');
+      msg.style.display = 'inline';
+      setTimeout(() => { msg.style.display = 'none'; }, 3000);
+    }
+
+    /* ═══════════════════════════════════════
+       Add a new lead & save to localStorage
+    ═══════════════════════════════════════ */
+    function addLead() {
+      const name    = document.getElementById('inputName').value.trim();
+      const comment = document.getElementById('inputComment').value.trim();
+
+      if (!name || !comment) {
+        alert('Please fill in both Customer Name and Comment.');
+        return;
+      }
+
+      const now  = new Date();
+      const time = 'Today, ' + now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+
+      const leads = getLeads();
+      const lead  = { name, comment, time, status: 'Pending' };
+      leads.push(lead);
+      saveLeads(leads);
+
+      renderRow(lead, leads.length - 1);
+      updateStats();
+
+      document.getElementById('inputName').value    = '';
+      document.getElementById('inputComment').value = '';
+    }
+
+  </script>
+
+</body>
+</html>
